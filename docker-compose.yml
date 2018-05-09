@@ -1,0 +1,28 @@
+version: '3'
+services:
+  mongo:
+    image: mongo:3.7
+    container_name: mongo-container 
+    ports:
+      - 27017:27017
+    networks:
+      - cluster_net
+  application:
+    container_name: ops-application
+    environment:
+      - PORT=8080 
+      - SHOW=true
+      - SESSION_SECRET
+    ports:
+      - 8080:8080
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on: 
+      - mongo
+    networks:
+      - cluster_net
+
+networks:
+  cluster_net:
+    driver: bridge
