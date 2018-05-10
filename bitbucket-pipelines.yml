@@ -1,0 +1,12 @@
+image: docker:stable
+
+options:
+  docker: true
+
+pipelines:
+  default:
+    - step:
+        name: Build deps and test
+        script:
+        - ci/dependencies.sh
+        - docker-compose run application_test
